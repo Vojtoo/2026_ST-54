@@ -15,7 +15,7 @@ fm_version_comment: ""
 id: "KNIFE_OVERVIEW_LIST"
 
 # Unikátne UUID – generuje skript
-guid: "f8e33bee-016d-4845-b3ae-bd2036d41c24"
+guid: "61d93f51-5521-4c5f-94ad-f568ff11749c"
 
 
 # 🧭 CONTEXT ---------------------------------------------------------
@@ -135,10 +135,11 @@ fm_reserved2: ""
 # 🗂 KNIFE Overview – List
 
 <!-- fm-visible: start -->
-> **GUID:** `f8e33bee-016d-4845-b3ae-bd2036d41c24`
+> **GUID:** `61d93f51-5521-4c5f-94ad-f568ff11749c`
 > **Status:** `backlog` · **Author:** Roman Kazička · **License:** CC-BY-NC-SA-4.0
 <!-- fm-visible: end -->
 
 [📰 Blog](./KNIFE_Overview_Blog.md) | **[🗂 List](./KNIFE_Overview_List.md)** | [📊 Details](./KNIFE_Overview_Details.md) | [↩️ KNIFES](../index.md)
 
 
+- **K000200** · [K000200 – Drone lab](../K000200-drone-lab/) · _backlog_ · -
