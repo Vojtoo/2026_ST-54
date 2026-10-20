@@ -43,7 +43,7 @@ sidebar_position: 1
 Toto je hlavná stránka slovenskej dokumentácie.
 
 - 🔪 [KNIFE príspevky](./knifes/index.md)
-- ⚙️ [7Ds rámec](./7ds/index.md)
+- ⚙️ [7Ds rámec](./7Ds/index.md)
 - 🧱 [SDLC – Framework](./sdlc/index.md)
 - 🎯 [Q12 – Framework](./q12/index.md)
 - 🏫 [STHDF – Framework](./sthdf/index.md)
