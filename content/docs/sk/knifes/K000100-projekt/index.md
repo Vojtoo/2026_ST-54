@@ -176,13 +176,14 @@ zmena výšky, priemeru alebo vôle je otázka jedného čísla a nového export
 
 | Čo                                            | Hodnota                                          |
 | --------------------------------------------- | ------------------------------------------------ |
-| 📏 Výška vysunutá / zložená                   | 192 mm / 87 mm                                   |
-| ⭕ Vonkajšie priemery (vrch / stred / spodok) | 50 / 68 / 86 mm                                  |
+| 📏 Výška vysunutá / zložená                   | 194 mm / 85 mm                                   |
+| ⭕ Priemery (v3)                              | vrch vnútri 98,8 / stred 91,8 / spodok 80 mm, pätka 120 mm |
 | 🧱 Diely na tlač                              | bottom, middle, top, ring_bottom, ring_middle    |
-| 🔴 O-krúžky (NBR)                             | cca 56×2 mm (vrch), 74×2 mm (stred)              |
+| 🔴 O-krúžky (NBR 70 Shore A)                  | 78×3 mm (spodok–stred), 90×3 mm (stred–vrch)     |
+| 💛 Dekorácia                                  | reliéf 1,5 mm na vrchu, parameter `motif` (aj vlastné SVG) |
 | 🔒 Bajonet                                    | 3 kolíky, pootočenie 30°, poistka 1 mm           |
 | 🧵 Materiál                                   | PETG, 4–6 perimetrov, segmenty postojačky        |
-| 🧪 Testovacia sada                            | test_outer + ring_middle + test_inner + O-krúžok |
+| 🧪 Testovacia sada (v3)                       | test_lower + ring_bottom + test_upper + O-krúžok 78×3 |
 | 🛠️ Nástroje                                   | OpenSCAD (model), PrusaSlicer / Cura (tlač)      |
 
 ## 📜 Detailný článok
@@ -251,6 +252,124 @@ zostali bez zmeny – nebolo ich treba tlačiť znova.
 
 ![Finálny návrh v2 – vysunutá, rez, zložená](./img/05-finalny-navrh-v2.png)
 
+### 6. Návrh v3 – obrátená architektúra, limit 10 cm a dekorácia
+
+Nové požiadavky:
+
+- vnútorný priemer najväčšieho segmentu **najviac 10 cm**,
+- **obrátiť celú architektúru** – najväčší segment má byť hore,
+- konkrétne O-krúžky, ktoré sa dajú kúpiť,
+- dekorácia na vonkajšej strane (obrázky, motívy).
+
+#### Rozmery
+
+| Diel | Rozmer |
+| --- | --- |
+| Vrch (najväčší) | vnútorný priemer 98,8 mm |
+| Stred | vonkajší priemer 91,8 mm |
+| Spodok | vonkajší priemer 80 mm |
+| Pätka | priemer 120 mm |
+| Výška | 194 mm vysunutá, 85 mm zložená |
+
+Limit 10 cm si model kontroluje sám: ak by zmena parametrov vnútorný priemer
+vrchu prekročila, OpenSCAD vypíše chybu.
+
+#### Čo sa zmenilo obrátením
+
+Vyšší segment sa teraz **nasúva zvonka** na nižší, preto sa zmenilo aj
+tesnenie:
+
+- **O-krúžok** sedí vo vnútornej drážke golieru na spodku vyššieho segmentu
+  a tesní o hladkú **vonkajšiu** stenu nižšieho segmentu.
+- **Kolíky** sú na krúžku, ktorý sa zaskrutkuje do vrchu nižšieho segmentu,
+  zarovno s jeho stenou.
+- **L-drážky** sú v golieri nad O-krúžkom a sú otvorené smerom hore, takže
+  tesniacu plochu neprerušia.
+
+Poradie dielov pri montáži (zdola nahor):
+
+1. spodok,
+2. krúžok,
+3. O-krúžok 78×3,
+4. stred,
+5. krúžok,
+6. O-krúžok 90×3,
+7. vrch.
+
+![Návrh v3 – rozložené diely zdola nahor](./img/06-v3-rozlozene-diely.png)
+
+Postup montáže:
+
+1. Vložiť O-krúžok do golieru stredu.
+2. Nasunúť stred zhora na spodok.
+3. Cez otvor stredu naskrutkovať `ring_bottom`.
+4. To isté zopakovať s vrchom a `ring_middle`.
+
+Zložená váza si všetky segmenty uloží na pätku.
+
+![Návrh v3 – vysunutá, rez a zložená](./img/07-v3-vysunuta-rez-zlozena.png)
+
+**Stabilita:** obrátená váza naplnená vodou je ťažká hore a úzka dole.
+Preto má pätku s priemerom 120 mm, ktorú treba tlačiť s vysokou výplňou
+(50–100 %), aby mala váhu.
+
+#### O-krúžky
+
+Oba sú štandardné metrické rozmery: NBR, tvrdosť 70 Shore A, prierez 3 mm.
+
+| Spoj | O-krúžok | Tesní o priemer | Natiahnutie |
+| --- | --- | --- | --- |
+| spodok / stred | 78×3 | 80 mm | cca 2,6 % |
+| stred / vrch | 90×3 | 91,8 mm | cca 2 % |
+
+Prierez 3 mm je zámerne väčší ako vo v2 (2 mm), lebo lepšie znáša
+nepresnosti 3D tlače.
+
+Kde kúpiť:
+
+- **Hansa-Flex SK** (eshop) – OR 78-3 aj OR 90-3, cena na vyžiadanie,
+- **Tameson** – balenia po 20 kusov (78×3 aj 90×3),
+- lokálne predajne tesnení, hydrauliky alebo ložísk – tieto rozmery bývajú
+  bežne skladom.
+
+**Zmenšenie väčšieho krúžku** (rozrezanie a zlepenie) je možné a pri váze
+funguje dobre, lebo tlak vody je minimálny:
+
+1. Krúžok prestrihnúť a skrátiť. Dĺžka v strede prierezu je
+   π × (vnútorný priemer + prierez); pre 78×3 je to π × 81 ≈ 254 mm.
+2. Strihať kolmo a čisto, najlepšie žiletkou v prípravku.
+3. Konce zlepiť vteřinovým lepidlom na gumu. Existujú hotové súpravy
+   (napr. Loctite O-ring splicing kit, Loctite 480166) s NBR šnúrou,
+   rezačkou a lepidlom, takže sa z jednej šnúry dá spraviť krúžok
+   ľubovoľného priemeru.
+
+Spoj je trochu tvrdší ako zvyšok krúžku – pri vysúvaní sa môže mierne
+zachytávať, ale na tesnenie v zamknutej polohe stačí. Alternatíva vhodná
+pre FabLab: vytlačiť si O-krúžok z TPU.
+
+#### Dekorácia
+
+Na vrchnom segmente je reliéf vysoký 1,5 mm. Motív sa vyberá parametrom
+`motif` v `.scad` súbore: `mix`, `kvet`, `srdce`, `hviezda` alebo `ziadna`.
+Pre vlastný obrázok sa nastaví `motif = "svg"` a `motif_svg` na vlastný
+`.svg` súbor (napr. kresbu z Inkscape) – motív sa zopakuje okolo celej vázy.
+
+Na obrázkoch je verzia s **9 srdiečkami po 40°**, ktorej počet, veľkosť
+a výšku riadia parametre `hearts_count`, `heart_size` a `heart_z`.
+
+![Vrch so srdiečkami – pohľad zboku a rez vo výške srdiečok](./img/08-v3-srdiecka.png)
+
+Stred a spodok sa reliéfom dekorovať nedajú, lebo po ich vonkajšej stene
+kĺže O-krúžok. Tam funguje iba iná farba filamentu.
+
+#### Súbory
+
+- STL pre všetky diely; vrch v dvoch verziách: `top.stl` (s dekoráciou)
+  a `top_bez_dekoracie.stl`.
+- Testovacia sada v3: `test_lower`, `ring_bottom`, `test_upper`
+  a jeden O-krúžok 78×3.
+- Predchádzajúca verzia je odložená ako `teleskopicka_vaza_v2.scad`.
+
 ### Prehľad iterácií
 
 | Verzia  | Zmena                                 | Dôvod                                 |
@@ -260,6 +379,7 @@ zostali bez zmeny – nebolo ich treba tlačiť znova.
 | v1.1    | testovacia sada s dnom + krúžok       | test spoja vodou bez tlače celej vázy |
 | v2      | krúžok zarovno, závit vo vnútri steny | vzhľad, úplné zloženie vázy           |
 | v2.1    | výšky 72 / 72 / 80 mm                 | limit 200 mm                          |
+| v3      | obrátená architektúra, vonkajšie tesnenie, O-krúžky 3 mm, reliéf | požiadavka max. 10 cm vnútri, najväčší segment hore, dekorácia |
 
 ## 💡 Tipy a poznámky
 
@@ -287,8 +407,8 @@ tesnosť, montáž, vzhľad aj údržba sa navzájom ovplyvňujú a zmena jednej
 mení ostatné. Parametrický model navyše umožnil zmeniť výšku vázy úpravou
 dvoch čísel bez nového návrhu.
 
-Ďalšie kroky: tlač a test testovacej sady, doladenie vôle, tlač celej vázy
-a návrh dekorácie (vinylová nálepka, reliéf alebo viacfarebná tlač).
+Ďalšie kroky: tlač a test testovacej sady, doladenie vôle a tlač celej
+vázy. Dekorácia je už v modeli ako reliéf srdiečok na vrchu (v3).
 
 <!-- body:start -->
 
